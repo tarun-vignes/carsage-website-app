@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
@@ -29,31 +30,38 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body>
-        <header className="sticky top-0 z-40 border-b border-slate-200/90 bg-white/90 backdrop-blur print-hidden">
-          <div className="page-wrap flex h-[74px] items-center justify-between gap-4">
-            <Link href="/" className="text-xl font-semibold tracking-tight text-slate-900">
-              CarSage
+      <body className="flex min-h-screen flex-col">
+        <header className="site-header">
+          <div className="page-wrap flex h-[90px] items-center justify-between gap-4">
+            <Link href="/" className="relative block h-12 w-[220px] overflow-hidden rounded-md sm:h-14 sm:w-[260px]">
+              <Image
+                src="/carsage-logo.png"
+                alt="CarSage"
+                fill
+                priority
+                sizes="(min-width: 640px) 260px, 220px"
+                className="object-cover object-center"
+              />
             </Link>
             <nav className="flex items-center gap-2 text-sm text-slate-700">
-              <Link href="/check" className="rounded-lg px-3 py-2 hover:bg-slate-100">
+              <Link href="/check" className="site-nav-link">
                 Check Listing
               </Link>
               {user ? (
                 <>
-                  <Link href="/dashboard" className="rounded-lg px-3 py-2 hover:bg-slate-100">
+                  <Link href="/dashboard" className="site-nav-link">
                     Dashboard
                   </Link>
-                  <Link href="/logout" className="btn-secondary px-3 py-2">
+                  <Link href="/logout" className="btn-secondary-nav">
                     Sign out
                   </Link>
                 </>
               ) : (
                 <>
-                  <Link href="/login" className="rounded-lg px-3 py-2 hover:bg-slate-100">
+                  <Link href="/login" className="site-nav-link">
                     Log in
                   </Link>
-                  <Link href="/signup" className="btn-primary px-4 py-2">
+                  <Link href="/signup" className="btn-primary-nav">
                     Sign up
                   </Link>
                 </>
@@ -61,7 +69,29 @@ export default async function RootLayout({
             </nav>
           </div>
         </header>
-        <div className="pb-12">{children}</div>
+        <div className="flex-1 pb-12">{children}</div>
+        <footer className="site-footer">
+          <div className="page-wrap grid gap-4 sm:grid-cols-[1.4fr_1fr]">
+            <div>
+              <p className="text-sm font-semibold text-slate-800">CarSage</p>
+              <p className="mt-1 text-xs leading-relaxed text-slate-500">
+                CarSage provides educational pricing guidance based on aggregated market data. Estimates are not guarantees
+                and may not reflect final out-the-door pricing.
+              </p>
+            </div>
+            <div className="sm:text-right">
+              <p className="text-xs uppercase tracking-wide text-slate-500">Product</p>
+              <div className="mt-2 flex flex-wrap gap-3 text-sm sm:justify-end">
+                <Link href="/check" className="text-slate-700 hover:text-slate-900">
+                  Check Listing
+                </Link>
+                <Link href="/dashboard" className="text-slate-700 hover:text-slate-900">
+                  Dashboard
+                </Link>
+              </div>
+            </div>
+          </div>
+        </footer>
       </body>
     </html>
   );

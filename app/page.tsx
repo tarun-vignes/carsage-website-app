@@ -8,7 +8,7 @@ export default function HomePage() {
     <main className="page-wrap py-14 sm:py-16">
       <section className="surface-card grid gap-10 p-6 sm:p-8 lg:grid-cols-[1.2fr_0.8fr] lg:p-10">
         <div className="space-y-6">
-          <p className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-amber-800">
+          <p className="inline-flex rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-semibold uppercase tracking-wide text-blue-800">
             Practical car buying intelligence
           </p>
           <h1 className="heading-xl max-w-xl">Buy with wisdom.</h1>
