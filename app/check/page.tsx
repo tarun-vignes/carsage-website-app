@@ -199,15 +199,27 @@ export default function CheckPage() {
     <main className="page-wrap py-10">
       <div className="grid gap-6 lg:grid-cols-[1fr_0.34fr]">
         <section className="surface-card p-6 sm:p-8">
-          <h1 className="heading-xl">Check a Listing</h1>
-          <p className="mt-2 text-sm text-slate-600">Choose manual entry or pull details directly from a dealership listing URL.</p>
+          <p className="eyebrow">Vehicle intake</p>
+          <div className="mt-2 flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <h1 className="heading-xl">Check a Listing</h1>
+              <p className="mt-2 max-w-2xl text-sm text-slate-600">
+                Choose manual entry or paste a dealership link. CarSage will convert the listing into a score, pricing
+                range, and negotiation plan.
+              </p>
+            </div>
+            <div className="rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+              <p className="font-semibold text-slate-900">Preview first</p>
+              <p className="mt-1 text-xs text-slate-600">See the score before deciding to unlock the full report.</p>
+            </div>
+          </div>
 
           <div className="mt-6 inline-flex rounded-xl border border-slate-300 bg-white p-1 text-sm">
             <button
               type="button"
               onClick={() => setEntryMode("manual")}
               className={`rounded-lg px-4 py-2 font-semibold ${
-                entryMode === "manual" ? "bg-amber-600 text-white" : "text-slate-700 hover:bg-slate-100"
+                entryMode === "manual" ? "bg-blue-700 text-white" : "text-slate-700 hover:bg-slate-100"
               }`}
             >
               Manual Entry
@@ -216,7 +228,7 @@ export default function CheckPage() {
               type="button"
               onClick={() => setEntryMode("automatic")}
               className={`rounded-lg px-4 py-2 font-semibold ${
-                entryMode === "automatic" ? "bg-amber-600 text-white" : "text-slate-700 hover:bg-slate-100"
+                entryMode === "automatic" ? "bg-blue-700 text-white" : "text-slate-700 hover:bg-slate-100"
               }`}
             >
               Automatic Entry
@@ -411,6 +423,15 @@ export default function CheckPage() {
         </section>
 
         <aside className="space-y-4">
+          <div className="surface-card p-5">
+            <p className="eyebrow">What buyers get</p>
+            <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-900">A cleaner number before you negotiate</h2>
+            <p className="mt-3 text-sm leading-6 text-slate-600">
+              The goal is not to predict the exact sale price. The goal is to give you a reasonable band, an opening number,
+              and a point where you should walk.
+            </p>
+          </div>
+
           <div className="soft-card p-5">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">Entry options</h2>
             <ul className="mt-3 space-y-2 text-sm text-slate-700">
@@ -438,6 +459,15 @@ export default function CheckPage() {
               <li>Deal Confidence Score and price signal</li>
               <li>Estimated negotiation room range</li>
               <li>Methodology confidence and baseline type</li>
+            </ul>
+          </div>
+
+          <div className="soft-card p-5">
+            <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">Best use at the dealership</h2>
+            <ul className="mt-3 space-y-2 text-sm text-slate-700">
+              <li>Negotiate selling price before monthly payment.</li>
+              <li>Use the walk-away number to avoid payment padding.</li>
+              <li>Ask for fees in writing before signing anything.</li>
             </ul>
           </div>
         </aside>

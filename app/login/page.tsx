@@ -40,32 +40,59 @@ export default function LoginPage() {
   }
 
   return (
-    <main className="page-wrap flex min-h-[calc(100vh-86px)] max-w-md items-center py-12">
-      <div className="surface-card w-full p-6 sm:p-7">
-        <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">Welcome back</p>
-        <h1 className="mt-1 text-2xl font-semibold tracking-tight text-slate-900">Log in</h1>
+    <main className="page-wrap py-12">
+      <div className="auth-shell items-stretch">
+        <section className="surface-card flex flex-col justify-between p-6 sm:p-8">
+          <div>
+            <p className="eyebrow">Welcome back</p>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Log in to view your reports</h1>
+            <p className="mt-3 max-w-lg text-sm leading-7 text-slate-600">
+              Purchased reports, saved previews, and future checkout history all live behind your CarSage account.
+            </p>
+          </div>
 
-        <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
-          <label className="space-y-1.5 text-sm">
-            <span className="font-medium text-slate-700">Email</span>
-            <input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
-          </label>
-          <label className="space-y-1.5 text-sm">
-            <span className="font-medium text-slate-700">Password</span>
-            <input required type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
-          </label>
-          {error && <p className="rounded-xl bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>}
-          <button type="submit" disabled={isSubmitting} className="btn-primary w-full disabled:opacity-60">
-            {isSubmitting ? "Signing in..." : "Sign in"}
-          </button>
-        </form>
+          <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+            <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
+              <p className="metric-label">Saved reports</p>
+              <p className="mt-2 text-sm text-slate-700">Keep every vehicle check tied to one dashboard.</p>
+            </div>
+            <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
+              <p className="metric-label">Locked to unlocked</p>
+              <p className="mt-2 text-sm text-slate-700">Pay once per report when you need the full plan.</p>
+            </div>
+            <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
+              <p className="metric-label">Dealership ready</p>
+              <p className="mt-2 text-sm text-slate-700">Return to the same numbers before you negotiate.</p>
+            </div>
+          </div>
+        </section>
 
-        <p className="mt-5 text-sm text-slate-600">
-          New to CarSage?{" "}
-          <Link href="/signup" className="font-semibold text-slate-900 underline underline-offset-4">
-            Create account
-          </Link>
-        </p>
+        <section className="surface-card w-full p-6 sm:p-8">
+          <p className="eyebrow">Account access</p>
+          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">Sign in</h2>
+
+          <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+            <label className="space-y-1.5 text-sm">
+              <span className="font-medium text-slate-700">Email</span>
+              <input required type="email" value={email} onChange={(event) => setEmail(event.target.value)} />
+            </label>
+            <label className="space-y-1.5 text-sm">
+              <span className="font-medium text-slate-700">Password</span>
+              <input required type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+            </label>
+            {error && <p className="rounded-xl bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>}
+            <button type="submit" disabled={isSubmitting} className="btn-primary w-full disabled:opacity-60">
+              {isSubmitting ? "Signing in..." : "Sign in"}
+            </button>
+          </form>
+
+          <p className="mt-5 text-sm text-slate-600">
+            New to CarSage?{" "}
+            <Link href="/signup" className="font-semibold text-slate-900 underline underline-offset-4">
+              Create account
+            </Link>
+          </p>
+        </section>
       </div>
     </main>
   );

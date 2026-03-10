@@ -31,59 +31,85 @@ export default async function DashboardPage() {
 
   return (
     <main className="page-wrap py-10">
-      <div className="surface-card p-6 sm:p-8">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <h1 className="text-2xl font-semibold tracking-tight text-slate-900">Your Reports</h1>
-            <p className="mt-1 text-sm text-slate-600">Review your purchased and preview reports.</p>
+      <div className="space-y-6">
+        <section className="surface-card p-6 sm:p-8">
+          <div className="flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="eyebrow">Report history</p>
+              <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Your Reports</h1>
+              <p className="mt-2 text-sm text-slate-600">Review your purchased and preview reports in one place.</p>
+            </div>
+            <Link href="/check" className="btn-secondary">
+              New Check
+            </Link>
           </div>
-          <Link href="/check" className="btn-secondary">
-            New Check
-          </Link>
-        </div>
 
-        <div className="mt-6 overflow-x-auto rounded-2xl border border-slate-200">
-          <table className="w-full min-w-[660px] border-collapse text-left text-sm">
-            <thead>
-              <tr className="bg-slate-50 text-slate-600">
-                <th className="px-4 py-3 font-medium">Vehicle</th>
-                <th className="px-4 py-3 font-medium">Score</th>
-                <th className="px-4 py-3 font-medium">Status</th>
-                <th className="px-4 py-3 font-medium">Created</th>
-                <th className="px-4 py-3 font-medium">Link</th>
-              </tr>
-            </thead>
-            <tbody>
-              {reports.map((report) => (
-                <tr key={report.id} className="border-t border-slate-100 text-slate-700 hover:bg-slate-50/70">
-                  <td className="px-4 py-3">
-                    {report.input_json.year} {report.input_json.make} {report.input_json.model}
-                  </td>
-                  <td className="px-4 py-3 font-semibold text-slate-900">{report.output_json.dealConfidenceScore}</td>
-                  <td className="px-4 py-3">
-                    {report.is_paid ? (
-                      <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700">Paid</span>
-                    ) : (
-                      <span className="rounded-full bg-amber-100 px-2.5 py-1 text-xs font-medium text-amber-700">Preview</span>
-                    )}
-                  </td>
-                  <td className="px-4 py-3">{new Date(report.created_at).toLocaleDateString()}</td>
-                  <td className="px-4 py-3">
-                    <Link href={`/report/${report.id}`} className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4">
-                      View report
-                    </Link>
-                  </td>
+          <div className="mt-5 grid gap-4 sm:grid-cols-3">
+            <div className="metric-card p-4">
+              <p className="metric-label">Total reports</p>
+              <p className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">{reports.length}</p>
+            </div>
+            <div className="metric-card p-4">
+              <p className="metric-label">Unlocked</p>
+              <p className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">{reports.filter((report) => report.is_paid).length}</p>
+            </div>
+            <div className="metric-card p-4">
+              <p className="metric-label">Preview only</p>
+              <p className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">{reports.filter((report) => !report.is_paid).length}</p>
+            </div>
+          </div>
+        </section>
+
+        <div className="surface-card p-6 sm:p-8">
+          <div className="overflow-x-auto rounded-2xl border border-slate-200">
+            <table className="w-full min-w-[660px] border-collapse text-left text-sm">
+              <thead>
+                <tr className="bg-slate-50 text-slate-600">
+                  <th className="px-4 py-3 font-medium">Vehicle</th>
+                  <th className="px-4 py-3 font-medium">Score</th>
+                  <th className="px-4 py-3 font-medium">Status</th>
+                  <th className="px-4 py-3 font-medium">Created</th>
+                  <th className="px-4 py-3 font-medium">Link</th>
                 </tr>
-              ))}
-              {reports.length === 0 && (
-                <tr>
-                  <td className="px-4 py-7 text-slate-600" colSpan={5}>
-                    No reports yet. <Link href="/check" className="font-medium underline">Check your first listing.</Link>
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {reports.map((report) => (
+                  <tr key={report.id} className="border-t border-slate-100 text-slate-700 hover:bg-slate-50/70">
+                    <td className="px-4 py-3">
+                      {report.input_json.year} {report.input_json.make} {report.input_json.model}
+                    </td>
+                    <td className="px-4 py-3 font-semibold text-slate-900">{report.output_json.dealConfidenceScore}</td>
+                    <td className="px-4 py-3">
+                      {report.is_paid ? (
+                        <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700">Paid</span>
+                      ) : (
+                        <span className="rounded-full bg-blue-100 px-2.5 py-1 text-xs font-medium text-blue-700">Preview</span>
+                      )}
+                    </td>
+                    <td className="px-4 py-3">{new Date(report.created_at).toLocaleDateString()}</td>
+                    <td className="px-4 py-3">
+                      <Link href={`/report/${report.id}`} className="font-semibold text-slate-900 underline decoration-slate-300 underline-offset-4">
+                        View report
+                      </Link>
+                    </td>
+                  </tr>
+                ))}
+                {reports.length === 0 && (
+                  <tr>
+                    <td className="px-4 py-8" colSpan={5}>
+                      <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-5 py-8 text-center">
+                        <p className="text-base font-semibold text-slate-900">No reports yet</p>
+                        <p className="mt-2 text-sm text-slate-600">Run your first listing check to start building your dashboard.</p>
+                        <Link href="/check" className="mt-4 inline-flex font-semibold text-blue-700 underline underline-offset-4">
+                          Check your first listing
+                        </Link>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </main>
