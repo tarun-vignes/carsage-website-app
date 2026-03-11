@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import "./globals.css";
+import { AccessibilityControls } from "@/components/accessibility-controls";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 
 export const metadata: Metadata = {
@@ -30,7 +31,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className="flex min-h-screen flex-col">
+      <body className="flex min-h-screen flex-col" translate="yes">
         <header className="site-header">
           <div className="page-wrap flex h-[90px] items-center justify-between gap-4">
             <Link href="/" className="relative block h-12 w-[220px] overflow-hidden rounded-md sm:h-14 sm:w-[260px]">
@@ -92,6 +93,7 @@ export default async function RootLayout({
             </div>
           </div>
         </footer>
+        <AccessibilityControls />
       </body>
     </html>
   );
