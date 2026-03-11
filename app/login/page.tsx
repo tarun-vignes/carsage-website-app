@@ -13,6 +13,11 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isResetOpen, setIsResetOpen] = useState(false);
+  const [resetEmail, setResetEmail] = useState("");
+  const [resetMessage, setResetMessage] = useState<string | null>(null);
+  const [resetError, setResetError] = useState<string | null>(null);
+  const [isResetSubmitting, setIsResetSubmitting] = useState(false);
 
   useEffect(() => {
     const next = new URLSearchParams(window.location.search).get("next");
@@ -37,6 +42,27 @@ export default function LoginPage() {
 
     router.push(nextPath);
     router.refresh();
+  }
+
+  async function handlePasswordReset(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setResetError(null);
+    setResetMessage(null);
+    setIsResetSubmitting(true);
+
+    const supabase = createSupabaseBrowserClient();
+    const { error: resetRequestError } = await supabase.auth.resetPasswordForEmail(resetEmail, {
+      redirectTo: `${window.location.origin}/auth/callback`
+    });
+
+    if (resetRequestError) {
+      setResetError(resetRequestError.message);
+      setIsResetSubmitting(false);
+      return;
+    }
+
+    setResetMessage("Password reset email sent. Check your inbox for the reset link.");
+    setIsResetSubmitting(false);
   }
 
   return (
@@ -86,6 +112,21 @@ export default function LoginPage() {
             </button>
           </form>
 
+          <div className="mt-4 flex items-center justify-between gap-3 text-sm">
+            <button
+              type="button"
+              className="font-semibold text-blue-700 underline underline-offset-4"
+              onClick={() => {
+                setResetEmail(email);
+                setResetError(null);
+                setResetMessage(null);
+                setIsResetOpen(true);
+              }}
+            >
+              Reset password
+            </button>
+          </div>
+
           <p className="mt-5 text-sm text-slate-600">
             New to CarSage?{" "}
             <Link href="/signup" className="font-semibold text-slate-900 underline underline-offset-4">
@@ -94,6 +135,48 @@ export default function LoginPage() {
           </p>
         </section>
       </div>
+
+      {isResetOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/35 px-4 backdrop-blur-sm">
+          <div className="surface-card w-full max-w-md p-6">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="eyebrow">Password reset</p>
+                <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">Send reset link</h2>
+              </div>
+              <button
+                type="button"
+                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+                onClick={() => setIsResetOpen(false)}
+              >
+                Close
+              </button>
+            </div>
+
+            <form className="mt-5 space-y-4" onSubmit={handlePasswordReset}>
+              <label className="space-y-1.5 text-sm">
+                <span className="font-medium text-slate-700">Email</span>
+                <input
+                  required
+                  type="email"
+                  value={resetEmail}
+                  onChange={(event) => setResetEmail(event.target.value)}
+                  placeholder="you@example.com"
+                />
+              </label>
+
+              {resetError && <p className="rounded-xl bg-rose-50 px-3 py-2 text-sm text-rose-700">{resetError}</p>}
+              {resetMessage && (
+                <p className="rounded-xl bg-emerald-50 px-3 py-2 text-sm text-emerald-700">{resetMessage}</p>
+              )}
+
+              <button type="submit" disabled={isResetSubmitting} className="btn-primary w-full disabled:opacity-60">
+                {isResetSubmitting ? "Sending..." : "Send reset link"}
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

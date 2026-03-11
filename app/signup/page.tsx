@@ -9,15 +9,16 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isCreated, setIsCreated] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+    setSuccessMessage(null);
     setIsSubmitting(true);
 
     const supabase = createSupabaseBrowserClient();
-    const { error: signUpError } = await supabase.auth.signUp({
+    const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -31,7 +32,12 @@ export default function SignupPage() {
       return;
     }
 
-    setIsCreated(true);
+    if (data.session) {
+      setSuccessMessage("Account created. You can now use CarSage immediately.");
+    } else {
+      setSuccessMessage("Account created. Check your email to confirm, then log in.");
+    }
+
     setIsSubmitting(false);
   }
 
@@ -84,9 +90,9 @@ export default function SignupPage() {
             </label>
 
             {error && <p className="rounded-xl bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>}
-            {isCreated && (
+            {successMessage && (
               <p className="rounded-xl bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
-                Account created. Check your email to confirm, then log in.
+                {successMessage}
               </p>
             )}
 
