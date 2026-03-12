@@ -7,7 +7,7 @@ import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 
 export default function LoginPage() {
   const router = useRouter();
-  const [nextPath, setNextPath] = useState("/dashboard");
+  const [nextPath, setNextPath] = useState("/check");
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
