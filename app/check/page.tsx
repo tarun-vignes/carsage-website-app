@@ -107,6 +107,7 @@ export default function CheckPage() {
     try {
       const extractResponse = await fetch("/api/listing-extract", {
         method: "POST",
+        credentials: "include",
         headers: {
           "Content-Type": "application/json"
         },
@@ -145,6 +146,9 @@ export default function CheckPage() {
         method: "POST",
         credentials: "include",
         headers: await buildAuthHeaders(),
+        headers: {
+          "Content-Type": "application/json"
+        },
         body: JSON.stringify(quotePayload)
       });
 

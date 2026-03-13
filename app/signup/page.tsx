@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FormEvent, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 
 export default function SignupPage() {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -34,8 +36,11 @@ export default function SignupPage() {
 
     if (data.session) {
       setSuccessMessage("Account created. You can now use CarSage immediately.");
+      router.push("/dashboard");
+      router.refresh();
     } else {
       setSuccessMessage("Account created. Check your email to confirm, then log in.");
+      router.push("/login");
     }
 
     setIsSubmitting(false);

@@ -7,7 +7,12 @@ import { createSupabaseServerClient } from "@/lib/supabase-server";
 
 export const metadata: Metadata = {
   title: "CarSage",
-  description: "Data-informed negotiation guidance before you buy a car."
+  description: "Data-informed negotiation guidance before you buy a car.",
+  icons: {
+    icon: "/carsage-icon.png",
+    shortcut: "/carsage-icon.png",
+    apple: "/carsage-icon.png"
+  }
 };
 
 const isSupabaseConfigured =
