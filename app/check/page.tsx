@@ -87,9 +87,19 @@ export default function CheckPage() {
       data: { session }
     } = await supabase.auth.getSession();
 
+    let accessToken = session?.access_token;
+
+    if (!accessToken) {
+      const {
+        data: { session: refreshedSession }
+      } = await supabase.auth.refreshSession();
+
+      accessToken = refreshedSession?.access_token;
+    }
+
     return {
       "Content-Type": "application/json",
-      ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {})
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
     };
   }
 

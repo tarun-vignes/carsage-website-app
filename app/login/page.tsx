@@ -1,12 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [nextPath, setNextPath] = useState("/check");
 
   const [email, setEmail] = useState("");
@@ -32,7 +30,10 @@ export default function LoginPage() {
     setIsSubmitting(true);
 
     const supabase = createSupabaseBrowserClient();
-    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    const {
+      data: { session },
+      error: signInError
+    } = await supabase.auth.signInWithPassword({ email, password });
 
     if (signInError) {
       setError(signInError.message);
@@ -40,8 +41,13 @@ export default function LoginPage() {
       return;
     }
 
-    router.push(nextPath);
-    router.refresh();
+    if (!session) {
+      setError("Sign-in did not establish a session. Please try again.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    window.location.assign(nextPath);
   }
 
   async function handlePasswordReset(event: FormEvent<HTMLFormElement>) {
