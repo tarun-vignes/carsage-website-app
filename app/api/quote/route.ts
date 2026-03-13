@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@supabase/supabase-js";
 import { buildReport } from "@/lib/scoring";
 import { createReportRecord } from "@/lib/reports";
+import { createSupabaseAdminClient } from "@/lib/supabase-admin";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 import { quoteInputSchema } from "@/lib/validation";
 
@@ -12,8 +12,8 @@ async function getRequestUser(request: Request) {
   const authorization = request.headers.get("authorization");
   const token = authorization?.startsWith("Bearer ") ? authorization.slice(7) : null;
 
-  if (token && process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-    const supabase = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+  if (token) {
+    const supabase = createSupabaseAdminClient();
     const {
       data: { user }
     } = await supabase.auth.getUser(token);
@@ -40,6 +40,10 @@ export async function POST(request: Request) {
     const user = await getRequestUser(request);
 
     if (!user) {
+      console.error("Quote auth failed", {
+        hasAuthorizationHeader: Boolean(request.headers.get("authorization")),
+        hasCookieHeader: Boolean(request.headers.get("cookie"))
+      });
       return NextResponse.json({ error: "You must be signed in to generate a report." }, { status: 401 });
     }
 
