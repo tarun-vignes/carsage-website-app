@@ -92,7 +92,7 @@ export default function ResetPasswordPage() {
             <p className="eyebrow">Account recovery</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Reset your password</h1>
             <p className="mt-3 max-w-lg text-sm leading-7 text-slate-600">
-              Choose a new password for your CarSage account. After saving it, you will be sent back to the login page.
+              Choose a new password for your Autovaro account. After saving it, you will be sent back to the login page.
             </p>
           </div>
 

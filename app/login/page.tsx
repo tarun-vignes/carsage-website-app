@@ -73,20 +73,20 @@ export default function LoginPage() {
             <p className="eyebrow">Welcome back</p>
             <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Log in to view your reports</h1>
             <p className="mt-3 max-w-lg text-sm leading-7 text-slate-600">
-              Purchased reports, saved previews, and future checkout history all live behind your CarSage account.
+              Purchased reports, saved previews, and future checkout history all live behind your Autovaro account.
             </p>
           </div>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-            <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
+            <div className="hero-panel p-4">
               <p className="metric-label">Saved reports</p>
               <p className="mt-2 text-sm text-slate-700">Keep every vehicle check tied to one dashboard.</p>
             </div>
-            <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
+            <div className="hero-panel p-4">
               <p className="metric-label">Locked to unlocked</p>
               <p className="mt-2 text-sm text-slate-700">Pay once per report when you need the full plan.</p>
             </div>
-            <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
+            <div className="hero-panel p-4">
               <p className="metric-label">Dealership ready</p>
               <p className="mt-2 text-sm text-slate-700">Return to the same numbers before you negotiate.</p>
             </div>
@@ -115,7 +115,7 @@ export default function LoginPage() {
           <div className="mt-4 flex items-center justify-between gap-3 text-sm">
             <button
               type="button"
-              className="font-semibold text-blue-700 underline underline-offset-4"
+              className="font-semibold text-[#0b3f9e] underline underline-offset-4"
               onClick={() => {
                 setResetEmail(email);
                 setResetError(null);
@@ -128,7 +128,7 @@ export default function LoginPage() {
           </div>
 
           <p className="mt-5 text-sm text-slate-600">
-            New to CarSage?{" "}
+            New to Autovaro?{" "}
             <Link href="/signup" className="font-semibold text-slate-900 underline underline-offset-4">
               Create account
             </Link>
@@ -146,7 +146,7 @@ export default function LoginPage() {
               </div>
               <button
                 type="button"
-                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-500 hover:bg-slate-100 hover:text-slate-900"
+                className="rounded-lg px-3 py-2 text-sm font-medium text-slate-500 hover:bg-white/80 hover:text-slate-900"
                 onClick={() => setIsResetOpen(false)}
               >
                 Close
@@ -180,3 +180,4 @@ export default function LoginPage() {
     </main>
   );
 }
+

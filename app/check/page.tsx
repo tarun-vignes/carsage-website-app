@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import type { PurchaseMethod } from "@/types/report";
 
 const disclaimer =
-  "CarSage provides educational pricing guidance based on aggregated market data. Estimates are not guarantees and may not reflect final out-the-door pricing.";
+  "Autovaro provides educational pricing guidance based on aggregated market data. Estimates are not guarantees and may not reflect final out-the-door pricing.";
 
 type EntryMode = "manual" | "automatic";
 
@@ -207,22 +207,22 @@ export default function CheckPage() {
             <div>
               <h1 className="heading-xl">Check a Listing</h1>
               <p className="mt-2 max-w-2xl text-sm text-slate-600">
-                Choose manual entry or paste a dealership link. CarSage will convert the listing into a score, pricing
+                Choose manual entry or paste a dealership link. Autovaro will convert the listing into a score, pricing
                 range, and negotiation plan.
               </p>
             </div>
-            <div className="rounded-2xl border border-slate-300 bg-slate-50 px-4 py-3 text-sm text-slate-700">
+            <div className="hero-panel max-w-[240px] px-4 py-3 text-sm text-slate-700">
               <p className="font-semibold text-slate-900">Preview first</p>
               <p className="mt-1 text-xs text-slate-600">See the score before deciding to unlock the full report.</p>
             </div>
           </div>
 
-          <div className="mt-6 inline-flex rounded-xl border border-slate-300 bg-white p-1 text-sm">
+          <div className="mt-6 inline-flex rounded-2xl border border-slate-300/70 bg-white/85 p-1.5 text-sm shadow-[0_16px_28px_-24px_rgba(15,23,42,0.45)]">
             <button
               type="button"
               onClick={() => setEntryMode("manual")}
               className={`rounded-lg px-4 py-2 font-semibold ${
-                entryMode === "manual" ? "bg-blue-700 text-white" : "text-slate-700 hover:bg-slate-100"
+                entryMode === "manual" ? "bg-[linear-gradient(135deg,#0b3f9e,#0f5fe6_58%,#1786ff)] text-white shadow-[0_14px_24px_-18px_rgba(15,95,230,0.6)]" : "text-slate-700 hover:bg-white"
               }`}
             >
               Manual Entry
@@ -231,7 +231,7 @@ export default function CheckPage() {
               type="button"
               onClick={() => setEntryMode("automatic")}
               className={`rounded-lg px-4 py-2 font-semibold ${
-                entryMode === "automatic" ? "bg-blue-700 text-white" : "text-slate-700 hover:bg-slate-100"
+                entryMode === "automatic" ? "bg-[linear-gradient(135deg,#4da000,#75d60a_56%,#97ea36)] text-slate-950 shadow-[0_14px_24px_-18px_rgba(117,214,10,0.55)]" : "text-slate-700 hover:bg-white"
               }`}
             >
               Automatic Entry
@@ -239,10 +239,10 @@ export default function CheckPage() {
           </div>
 
           {entryMode === "automatic" ? (
-            <div className="soft-card mt-5 space-y-3 p-4">
+            <div className="hero-panel mt-5 space-y-3">
               <p className="text-sm font-semibold text-slate-800">Automatic Entry</p>
               <p className="text-xs text-slate-600">
-                Paste the dealership listing URL. CarSage will extract details and generate a report directly.
+                Paste the dealership listing URL. Autovaro will extract details and generate a report directly.
               </p>
               <label className="space-y-1.5 text-sm">
                 <span className="font-medium text-slate-700">Listing URL</span>
@@ -261,7 +261,7 @@ export default function CheckPage() {
               >
                 {isAutoSubmitting ? "Generating..." : "Generate From Link"}
               </button>
-              {autoError && <p className="rounded-xl bg-rose-50 px-3 py-2 text-sm text-rose-700">{autoError}</p>}
+              {autoError && <p className="rounded-xl border border-rose-200 bg-rose-50/90 px-3 py-2 text-sm text-rose-700">{autoError}</p>}
             </div>
           ) : (
             <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -349,7 +349,7 @@ export default function CheckPage() {
               </div>
 
               {form.purchaseMethod === "finance" && (
-                <div className="soft-card grid gap-4 p-4 sm:grid-cols-3">
+                <div className="hero-panel grid gap-4 sm:grid-cols-3">
                   <label className="space-y-1.5 text-sm">
                     <span className="font-medium text-slate-700">Down Payment ($)</span>
                     <input
@@ -386,7 +386,7 @@ export default function CheckPage() {
               )}
 
               {form.purchaseMethod === "lease" && (
-                <div className="soft-card grid gap-4 p-4 sm:grid-cols-2">
+                <div className="hero-panel grid gap-4 sm:grid-cols-2">
                   <label className="space-y-1.5 text-sm">
                     <span className="font-medium text-slate-700">Lease Term (months)</span>
                     <input
@@ -412,7 +412,7 @@ export default function CheckPage() {
                 </div>
               )}
 
-              {error && <p className="rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-700">{error}</p>}
+              {error && <p className="rounded-xl border border-rose-200 bg-rose-50/90 px-4 py-3 text-sm text-rose-700">{error}</p>}
 
               <button
                 type="submit"
@@ -425,8 +425,8 @@ export default function CheckPage() {
           )}
         </section>
 
-        <aside className="space-y-4">
-          <div className="surface-card p-5">
+        <aside className="space-y-4 lg:pt-2">
+          <div className="hero-panel">
             <p className="eyebrow">What buyers get</p>
             <h2 className="mt-2 text-xl font-semibold tracking-tight text-slate-900">A cleaner number before you negotiate</h2>
             <p className="mt-3 text-sm leading-6 text-slate-600">
@@ -435,7 +435,7 @@ export default function CheckPage() {
             </p>
           </div>
 
-          <div className="soft-card p-5">
+          <div className="hero-panel">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">Entry options</h2>
             <ul className="mt-3 space-y-2 text-sm text-slate-700">
               <li>
@@ -447,7 +447,7 @@ export default function CheckPage() {
             </ul>
           </div>
 
-          <div className="soft-card p-5">
+          <div className="hero-panel">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">How the math works</h2>
             <ul className="mt-3 space-y-2 text-sm text-slate-700">
               <li>Base value from exact model or closest market segment.</li>
@@ -456,7 +456,7 @@ export default function CheckPage() {
               <li>State fee risk folded into total confidence score.</li>
             </ul>
           </div>
-          <div className="soft-card p-5">
+          <div className="hero-panel">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">Free preview includes</h2>
             <ul className="mt-3 space-y-2 text-sm text-slate-700">
               <li>Deal Confidence Score and price signal</li>
@@ -465,7 +465,7 @@ export default function CheckPage() {
             </ul>
           </div>
 
-          <div className="soft-card p-5">
+          <div className="hero-panel">
             <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-600">Best use at the dealership</h2>
             <ul className="mt-3 space-y-2 text-sm text-slate-700">
               <li>Negotiate selling price before monthly payment.</li>
@@ -480,3 +480,4 @@ export default function CheckPage() {
     </main>
   );
 }
+

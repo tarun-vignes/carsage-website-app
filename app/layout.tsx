@@ -6,12 +6,12 @@ import { AccessibilityControls } from "@/components/accessibility-controls";
 import { createSupabaseServerClient } from "@/lib/supabase-server";
 
 export const metadata: Metadata = {
-  title: "CarSage",
+  title: "Autovaro",
   description: "Data-informed negotiation guidance before you buy a car.",
   icons: {
-    icon: "/carsage-icon.png",
-    shortcut: "/carsage-icon.png",
-    apple: "/carsage-icon.png"
+    icon: "/autovaro-icon.png",
+    shortcut: "/autovaro-icon.png",
+    apple: "/autovaro-icon.png"
   }
 };
 
@@ -38,15 +38,15 @@ export default async function RootLayout({
     <html lang="en">
       <body className="flex min-h-screen flex-col" translate="yes">
         <header className="site-header">
-          <div className="page-wrap flex h-[90px] items-center justify-between gap-4">
-            <Link href="/" className="relative block h-12 w-[220px] overflow-hidden rounded-md sm:h-14 sm:w-[260px]">
+          <div className="page-wrap flex h-[112px] items-center justify-between gap-4">
+            <Link href="/" className="relative block h-[78px] w-[420px] overflow-hidden sm:h-[88px] sm:w-[500px]">
               <Image
-                src="/carsage-logo.png"
-                alt="CarSage"
+                src="/autovaro-logo.png"
+                alt="Autovaro"
                 fill
                 priority
-                sizes="(min-width: 640px) 260px, 220px"
-                className="object-cover object-center"
+                sizes="(min-width: 640px) 372px, 320px"
+                className="object-contain object-left scale-[2.7] sm:scale-[2.85] origin-left"
               />
             </Link>
             <nav className="flex items-center gap-2 text-sm text-slate-700">
@@ -79,14 +79,14 @@ export default async function RootLayout({
         <footer className="site-footer">
           <div className="page-wrap grid gap-4 sm:grid-cols-[1.4fr_1fr]">
             <div>
-              <p className="text-sm font-semibold text-slate-800">CarSage</p>
-              <p className="mt-1 text-xs leading-relaxed text-slate-500">
-                CarSage provides educational pricing guidance based on aggregated market data. Estimates are not guarantees
+              <p className="text-sm font-semibold text-slate-800">Autovaro</p>
+              <p className="mt-1 max-w-xl text-xs leading-relaxed text-slate-500">
+                Autovaro provides educational pricing guidance based on aggregated market data. Estimates are not guarantees
                 and may not reflect final out-the-door pricing.
               </p>
             </div>
             <div className="sm:text-right">
-              <p className="text-xs uppercase tracking-wide text-slate-500">Product</p>
+              <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Navigation</p>
               <div className="mt-2 flex flex-wrap gap-3 text-sm sm:justify-end">
                 <Link href="/check" className="text-slate-700 hover:text-slate-900">
                   Check Listing
@@ -103,3 +103,4 @@ export default async function RootLayout({
     </html>
   );
 }
+

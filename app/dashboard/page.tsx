@@ -61,10 +61,10 @@ export default async function DashboardPage() {
         </section>
 
         <div className="surface-card p-6 sm:p-8">
-          <div className="overflow-x-auto rounded-2xl border border-slate-200">
+          <div className="overflow-x-auto rounded-[28px] border border-slate-300/70 bg-white/70 shadow-[inset_0_1px_0_rgba(255,255,255,0.8)]">
             <table className="w-full min-w-[660px] border-collapse text-left text-sm">
               <thead>
-                <tr className="bg-slate-50 text-slate-600">
+                <tr className="bg-[linear-gradient(180deg,rgba(241,245,249,0.95),rgba(231,237,243,0.88))] text-slate-600">
                   <th className="px-4 py-3 font-medium">Vehicle</th>
                   <th className="px-4 py-3 font-medium">Score</th>
                   <th className="px-4 py-3 font-medium">Status</th>
@@ -74,7 +74,7 @@ export default async function DashboardPage() {
               </thead>
               <tbody>
                 {reports.map((report) => (
-                  <tr key={report.id} className="border-t border-slate-100 text-slate-700 hover:bg-slate-50/70">
+                  <tr key={report.id} className="border-t border-slate-200/80 text-slate-700 hover:bg-white/65">
                     <td className="px-4 py-3">
                       {report.input_json.year} {report.input_json.make} {report.input_json.model}
                     </td>
@@ -83,7 +83,7 @@ export default async function DashboardPage() {
                       {report.is_paid ? (
                         <span className="rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-medium text-emerald-700">Paid</span>
                       ) : (
-                        <span className="rounded-full bg-blue-100 px-2.5 py-1 text-xs font-medium text-blue-700">Preview</span>
+                        <span className="rounded-full border border-[#b8d4ff] bg-[#e8f1ff] px-2.5 py-1 text-xs font-medium text-[#0b3f9e]">Preview</span>
                       )}
                     </td>
                     <td className="px-4 py-3">{new Date(report.created_at).toLocaleDateString()}</td>
@@ -97,10 +97,10 @@ export default async function DashboardPage() {
                 {reports.length === 0 && (
                   <tr>
                     <td className="px-4 py-8" colSpan={5}>
-                      <div className="rounded-2xl border border-dashed border-slate-300 bg-slate-50 px-5 py-8 text-center">
+                      <div className="hero-panel border-dashed px-5 py-8 text-center">
                         <p className="text-base font-semibold text-slate-900">No reports yet</p>
                         <p className="mt-2 text-sm text-slate-600">Run your first listing check to start building your dashboard.</p>
-                        <Link href="/check" className="mt-4 inline-flex font-semibold text-blue-700 underline underline-offset-4">
+                        <Link href="/check" className="mt-4 inline-flex font-semibold text-[#0b3f9e] underline underline-offset-4">
                           Check your first listing
                         </Link>
                       </div>
@@ -115,3 +115,4 @@ export default async function DashboardPage() {
     </main>
   );
 }
+

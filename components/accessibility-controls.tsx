@@ -10,13 +10,13 @@ type LinkVisibility = "default" | "enhanced";
 type SpeechRate = "slow" | "normal" | "fast";
 
 const STORAGE_KEYS = {
-  fontScale: "carsage-font-scale",
-  contrast: "carsage-contrast",
-  motion: "carsage-motion",
-  lineSpacing: "carsage-line-spacing",
-  linkVisibility: "carsage-link-visibility",
-  speechRate: "carsage-speech-rate",
-  speechVoice: "carsage-speech-voice"
+  fontScale: "autovaro-font-scale",
+  contrast: "autovaro-contrast",
+  motion: "autovaro-motion",
+  lineSpacing: "autovaro-line-spacing",
+  linkVisibility: "autovaro-link-visibility",
+  speechRate: "autovaro-speech-rate",
+  speechVoice: "autovaro-speech-voice"
 } as const;
 
 function setRootPreference(name: string, value: string) {
