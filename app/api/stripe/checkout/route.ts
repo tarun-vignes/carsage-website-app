@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { getStripeClient } from "@/lib/stripe";
 import { createSupabaseAdminClient } from "@/lib/supabase-admin";
-import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { createSupabaseRouteClient } from "@/lib/supabase-route";
 import { checkoutSchema } from "@/lib/validation";
 
 export const runtime = "nodejs";
@@ -24,7 +24,7 @@ async function getRequestUser(request: Request) {
     }
   }
 
-  const supabase = createSupabaseServerClient();
+  const supabase = createSupabaseRouteClient(request);
   const {
     data: { user }
   } = await supabase.auth.getUser();

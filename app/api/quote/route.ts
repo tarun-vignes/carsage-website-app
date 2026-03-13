@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { buildReport } from "@/lib/scoring";
 import { createReportRecord } from "@/lib/reports";
 import { createSupabaseAdminClient } from "@/lib/supabase-admin";
-import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { createSupabaseRouteClient } from "@/lib/supabase-route";
 import { quoteInputSchema } from "@/lib/validation";
 
 const isSupabaseConfigured =
@@ -23,7 +23,7 @@ async function getRequestUser(request: Request) {
     }
   }
 
-  const supabase = createSupabaseServerClient();
+  const supabase = createSupabaseRouteClient(request);
   const {
     data: { user }
   } = await supabase.auth.getUser();
