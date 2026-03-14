@@ -1,8 +1,3 @@
-<<<<<<< Updated upstream
-# CarSage MVP
-
-CarSage is a Next.js 14 MVP that helps buyers evaluate a car listing with a Deal Confidence Score, price band, and negotiation plan.
-=======
 ![Autovaro logo](public/autovaro-logo.png)
 
 Autovaro is a Next.js MVP that helps car buyers evaluate a listing before purchase. A user enters vehicle details manually or pastes a dealership listing URL, then Autovaro generates a report with a Deal Confidence Score, fair-price guidance, negotiation room, and a suggested offer plan.
@@ -52,7 +47,6 @@ The current frontend includes:
   - relaxed line spacing
   - enhanced link visibility
   - read-aloud controls
->>>>>>> Stashed changes
 
 ## Stack
 
@@ -63,18 +57,8 @@ The current frontend includes:
 - Stripe Checkout (one-time $9 report unlock)
 - Zod validation
 
-## Features
+## Core Flow
 
-<<<<<<< Updated upstream
-- Email/password auth with Supabase
-- Protected report and dashboard routes
-- `/check` form with required and optional purchase-method fields
-- `/api/quote` input validation + deterministic scoring + report persistence
-- Free preview report + paid unlock flow
-- Stripe checkout + webhook to mark report as paid
-- Dashboard listing report history and paid/preview status
-- PDF export via browser print
-=======
 1. A user signs up or logs in.
 2. The user checks a listing manually or by pasting a dealership URL.
 3. The app validates the input with Zod.
@@ -82,7 +66,6 @@ The current frontend includes:
 5. The report is stored in Supabase.
 6. The user sees a preview first.
 7. The user can later unlock the full report with Stripe.
->>>>>>> Stashed changes
 
 ## Folder Structure
 
