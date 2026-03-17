@@ -1,4 +1,4 @@
-export const CARSAGE_SCHEMA_SQL = `
+export const AUTOVARO_SCHEMA_SQL = `
 create extension if not exists "pgcrypto";
 
 create table if not exists public.reports (

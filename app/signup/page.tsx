@@ -35,7 +35,7 @@ export default function SignupPage() {
     }
 
     if (data.session) {
-      setSuccessMessage("Account created. You can now use CarSage immediately.");
+      setSuccessMessage("Account created. You can now use Autovaro immediately.");
       router.push("/dashboard");
       router.refresh();
     } else {
@@ -52,22 +52,22 @@ export default function SignupPage() {
         <section className="surface-card flex flex-col justify-between p-6 sm:p-8">
           <div>
             <p className="eyebrow">Get started</p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Create your CarSage account</h1>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Create your Autovaro account</h1>
             <p className="mt-3 max-w-lg text-sm leading-7 text-slate-600">
               Start with free previews, then unlock full negotiation reports only when a listing is worth pursuing.
             </p>
           </div>
 
           <div className="mt-8 space-y-3">
-            <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
+            <div className="hero-panel p-4">
               <p className="metric-label">Free first look</p>
               <p className="mt-2 text-sm text-slate-700">See the score, price signal, and one clear insight before paying.</p>
             </div>
-            <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
+            <div className="hero-panel p-4">
               <p className="metric-label">$9 unlock model</p>
               <p className="mt-2 text-sm text-slate-700">Pay only for the listings where you want the full offer ladder and script.</p>
             </div>
-            <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
+            <div className="hero-panel p-4">
               <p className="metric-label">No subscriptions</p>
               <p className="mt-2 text-sm text-slate-700">This MVP is designed for one-time reports, not recurring billing.</p>
             </div>
@@ -117,3 +117,4 @@ export default function SignupPage() {
     </main>
   );
 }
+

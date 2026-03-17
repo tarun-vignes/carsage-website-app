@@ -6,7 +6,7 @@ import { PdfExportButton } from "@/components/pdf-export-button";
 import type { PriceIndicator } from "@/types/report";
 
 const disclaimer =
-  "CarSage provides educational pricing guidance based on aggregated market data. Estimates are not guarantees and may not reflect final out-the-door pricing.";
+  "Autovaro provides educational pricing guidance based on aggregated market data. Estimates are not guarantees and may not reflect final out-the-door pricing.";
 
 const isSupabaseConfigured =
   Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) && Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
@@ -33,7 +33,7 @@ function scoreTone(score: number): string {
   }
 
   if (score >= 55) {
-    return "text-blue-700";
+    return "text-[#0b3f9e]";
   }
 
   return "text-amber-600";
@@ -45,7 +45,7 @@ function indicatorTone(indicator: PriceIndicator): string {
   }
 
   if (indicator === "Fair") {
-    return "border-blue-200 bg-blue-50 text-blue-700";
+    return "border-[#b8d4ff] bg-[#e8f1ff] text-[#0b3f9e]";
   }
 
   return "border-amber-200 bg-amber-50 text-amber-700";
@@ -88,7 +88,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
         <section className="surface-card overflow-hidden p-6 sm:p-8">
           <div className="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
             <div>
-              <p className="eyebrow">CarSage report</p>
+              <p className="eyebrow">Autovaro report</p>
               <div className="mt-3 flex flex-wrap items-center gap-3">
                 <h1 className="text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
                   {input.year} {input.make} {input.model}
@@ -121,7 +121,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
               </div>
             </div>
 
-            <div className="metric-card flex flex-col justify-between bg-[linear-gradient(145deg,rgba(239,246,255,0.95),rgba(255,255,255,0.95))]">
+            <div className="metric-card flex flex-col justify-between bg-[linear-gradient(145deg,rgba(232,241,255,0.94),rgba(245,250,255,0.98)_48%,rgba(236,247,228,0.94))]">
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <p className="metric-label">Deal confidence score</p>
@@ -138,7 +138,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
               <div className="mt-5">
                 <div className="h-3 overflow-hidden rounded-full bg-slate-200">
                   <div
-                    className="h-full rounded-full bg-[linear-gradient(90deg,#1d4ed8_0%,#2563eb_55%,#60a5fa_100%)]"
+                    className="h-full rounded-full bg-[linear-gradient(90deg,#0b3f9e_0%,#0f5fe6_58%,#75d60a_100%)]"
                     style={{ width: scoreWidth }}
                   />
                 </div>
@@ -198,12 +198,12 @@ export default async function ReportPage({ params }: { params: { id: string } })
             <p className="mt-4 text-sm leading-7 text-slate-700">{output.topInsight}</p>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <div className="hero-panel p-4">
                 <p className="metric-label">Baseline used</p>
                 <p className="mt-2 text-base font-semibold text-slate-900">{output.methodologyPreview.baselineReference}</p>
                 <p className="mt-1 text-sm text-slate-600">{output.methodologyPreview.matchLevel}</p>
               </div>
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+              <div className="hero-panel p-4">
                 <p className="metric-label">Expected mileage</p>
                 <p className="mt-2 text-base font-semibold text-slate-900">
                   {output.methodologyPreview.expectedMileage.toLocaleString()} miles
@@ -220,7 +220,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
               {output.whyBullets.map((bullet, index) => (
                 <div key={bullet} className="rounded-2xl border border-slate-200 bg-white p-4">
                   <div className="flex items-start gap-3">
-                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-700 text-xs font-semibold text-white">
+                    <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[linear-gradient(135deg,#0b3f9e,#0f5fe6_60%,#75d60a)] text-xs font-semibold text-white">
                       {index + 1}
                     </span>
                     <p className="text-sm leading-6 text-slate-700">{bullet}</p>
@@ -275,17 +275,17 @@ export default async function ReportPage({ params }: { params: { id: string } })
                 </div>
 
                 <div className="mt-6 grid gap-4 md:grid-cols-3">
-                  <div className="rounded-[28px] border border-slate-300 bg-[linear-gradient(180deg,#eff6ff_0%,#ffffff_100%)] p-5">
+                  <div className="rounded-[28px] border border-slate-300 bg-[linear-gradient(180deg,#e8f1ff_0%,#ffffff_68%,#eef8e7_100%)] p-5">
                     <p className="metric-label">Opening offer</p>
                     <p className="mt-3 text-3xl font-semibold tracking-tight text-slate-900">{currency(output.offerLadder.openingOffer)}</p>
                     <p className="mt-2 text-sm text-slate-600">Start here to leave room without losing credibility.</p>
                   </div>
-                  <div className="rounded-[28px] border border-slate-300 bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_100%)] p-5">
+                  <div className="rounded-[28px] border border-slate-300 bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_64%,#eef4f8_100%)] p-5">
                     <p className="metric-label">Target price</p>
                     <p className="mt-3 text-3xl font-semibold tracking-tight text-slate-900">{currency(output.offerLadder.targetPrice)}</p>
                     <p className="mt-2 text-sm text-slate-600">This is the number to anchor as your realistic close.</p>
                   </div>
-                  <div className="rounded-[28px] border border-slate-300 bg-[linear-gradient(180deg,#fff7ed_0%,#ffffff_100%)] p-5">
+                  <div className="rounded-[28px] border border-slate-300 bg-[linear-gradient(180deg,#eef8e7_0%,#ffffff_100%)] p-5">
                     <p className="metric-label">Walk-away</p>
                     <p className="mt-3 text-3xl font-semibold tracking-tight text-slate-900">{currency(output.offerLadder.walkAwayPrice)}</p>
                     <p className="mt-2 text-sm text-slate-600">If the total rises above this, keep shopping.</p>
@@ -302,15 +302,15 @@ export default async function ReportPage({ params }: { params: { id: string } })
                 <div className="rounded-[28px] border border-slate-300 bg-white p-5 shadow-[0_16px_36px_-30px_rgba(15,23,42,0.35)]">
                   <p className="metric-label">Fee risk panel</p>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <div className="hero-panel p-4">
                       <p className="text-xs uppercase tracking-[0.18em] text-slate-500">State</p>
                       <p className="mt-2 text-xl font-semibold text-slate-900">{output.feeRiskPanel.state}</p>
                     </div>
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <div className="hero-panel p-4">
                       <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Estimated doc fee</p>
                       <p className="mt-2 text-xl font-semibold text-slate-900">{currency(output.feeRiskPanel.docFeeEstimate)}</p>
                     </div>
-                    <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                    <div className="hero-panel p-4">
                       <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Risk level</p>
                       <p className="mt-2 text-xl font-semibold text-slate-900">{output.feeRiskPanel.riskLevel}</p>
                     </div>
@@ -343,19 +343,19 @@ export default async function ReportPage({ params }: { params: { id: string } })
                   <div className="rounded-[28px] border border-slate-300 bg-white p-5 shadow-[0_16px_36px_-30px_rgba(15,23,42,0.35)]">
                     <p className="metric-label">Finance monthly estimate</p>
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                      <div className="hero-panel p-4">
                         <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Principal</p>
                         <p className="mt-2 text-xl font-semibold text-slate-900">{currency(output.financeEstimate.principal)}</p>
                       </div>
-                      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                      <div className="hero-panel p-4">
                         <p className="text-xs uppercase tracking-[0.18em] text-slate-500">APR</p>
                         <p className="mt-2 text-xl font-semibold text-slate-900">{output.financeEstimate.aprPercent}%</p>
                       </div>
-                      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                      <div className="hero-panel p-4">
                         <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Term</p>
                         <p className="mt-2 text-xl font-semibold text-slate-900">{output.financeEstimate.termMonths} months</p>
                       </div>
-                      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
+                      <div className="hero-panel p-4">
                         <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Monthly payment</p>
                         <p className="mt-2 text-xl font-semibold text-slate-900">
                           {currency(output.financeEstimate.monthlyPayment)}
@@ -377,3 +377,4 @@ export default async function ReportPage({ params }: { params: { id: string } })
     </main>
   );
 }
+

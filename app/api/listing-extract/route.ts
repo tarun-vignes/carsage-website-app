@@ -720,7 +720,7 @@ export async function POST(request: Request) {
       method: "GET",
       redirect: "follow",
       headers: {
-        "User-Agent": "CarSageBot/1.0 (+listing extraction)",
+        "User-Agent": "AutovaroBot/1.0 (+listing extraction)",
         Accept: "text/html,application/xhtml+xml"
       },
       cache: "no-store"
