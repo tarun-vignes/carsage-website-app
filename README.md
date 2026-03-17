@@ -53,11 +53,13 @@ The current frontend includes:
 - Next.js 14 App Router
 - TypeScript
 - Tailwind CSS
-- Supabase (Postgres + Auth)
-- Stripe Checkout (one-time $9 report unlock)
-- Zod validation
+- Supabase
+  - Postgres
+  - Auth
+- Stripe Checkout
+- Zod
 
-## Core Flow
+## Core App Flow
 
 1. A user signs up or logs in.
 2. The user checks a listing manually or by pasting a dealership URL.
@@ -67,22 +69,35 @@ The current frontend includes:
 6. The user sees a preview first.
 7. The user can later unlock the full report with Stripe.
 
-## Folder Structure
+## Report Logic
+
+The current scoring model is deterministic and explainable. It is based on:
+- baseline vehicle pricing data
+- age adjustment
+- mileage adjustment
+- fee-risk estimate from ZIP/state
+- negotiation leverage
+- confidence weighting from baseline match quality
+
+Outputs are stored as structured JSON so the report format can grow without redesigning the database immediately.
+
+## Project Structure
 
 ```text
 /app
   /check
-  /report/[id]
   /dashboard
+  /login
+  /signup
+  /report/[id]
   /api/quote
+  /api/listing-extract
   /api/stripe/checkout
   /api/stripe/webhook
+  /auth/callback
+/components
 /lib
-  scoring.ts
-  pricing-baseline.ts
-  validation.ts
 /db
-  schema.ts
 ```
 
 ## 1) Install and Run
@@ -111,43 +126,7 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 ## 3) Supabase Setup
 
 1. Create a Supabase project.
-2. In Supabase SQL editor, run:
-
-```sql
-create extension if not exists "pgcrypto";
-
-create table if not exists public.reports (
-  id uuid primary key default gen_random_uuid(),
-  user_id uuid not null references auth.users(id) on delete cascade,
-  input_json jsonb not null,
-  output_json jsonb not null,
-  is_paid boolean not null default false,
-  paid_at timestamptz,
-  created_at timestamptz not null default now()
-);
-
-alter table public.reports enable row level security;
-
-create policy "Users can view own reports"
-on public.reports
-for select
-using (auth.uid() = user_id);
-
-create policy "Users can insert own reports"
-on public.reports
-for insert
-with check (auth.uid() = user_id);
-
-create policy "Users can update own reports"
-on public.reports
-for update
-using (auth.uid() = user_id)
-with check (auth.uid() = user_id);
-
-create index if not exists idx_reports_user_created
-on public.reports (user_id, created_at desc);
-```
-
+2. In Supabase SQL editor, run the schema used by the app.
 3. Enable Email auth in Supabase Authentication settings.
 4. Add `http://localhost:3000/auth/callback` to allowed redirect URLs.
 5. Set project URL, anon key, and service role key in `.env.local`.

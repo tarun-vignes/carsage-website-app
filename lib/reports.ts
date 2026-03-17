@@ -1,8 +1,8 @@
 import type { ReportRecord, ReportOutput, QuoteInput } from "@/types/report";
-import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { createSupabaseAdminClient } from "@/lib/supabase-admin";
 
 export async function createReportRecord(userId: string, input: QuoteInput, output: ReportOutput) {
-  const supabase = createSupabaseServerClient();
+  const supabase = createSupabaseAdminClient();
 
   const { data, error } = await supabase
     .from("reports")
@@ -23,7 +23,7 @@ export async function createReportRecord(userId: string, input: QuoteInput, outp
 }
 
 export async function getReportForUser(reportId: string, userId: string): Promise<ReportRecord | null> {
-  const supabase = createSupabaseServerClient();
+  const supabase = createSupabaseAdminClient();
 
   const { data, error } = await supabase
     .from("reports")
@@ -40,7 +40,7 @@ export async function getReportForUser(reportId: string, userId: string): Promis
 }
 
 export async function listReportsForUser(userId: string): Promise<ReportRecord[]> {
-  const supabase = createSupabaseServerClient();
+  const supabase = createSupabaseAdminClient();
 
   const { data, error } = await supabase
     .from("reports")

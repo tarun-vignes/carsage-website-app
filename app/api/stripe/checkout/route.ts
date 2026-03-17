@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getStripeClient } from "@/lib/stripe";
-import { createSupabaseServerClient } from "@/lib/supabase-server";
+import { createSupabaseAdminClient } from "@/lib/supabase-admin";
+import { createSupabaseRouteClient } from "@/lib/supabase-route";
 import { checkoutSchema } from "@/lib/validation";
 
 export const runtime = "nodejs";
@@ -8,16 +9,37 @@ export const runtime = "nodejs";
 const isSupabaseConfigured =
   Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL) && Boolean(process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 
+async function getRequestUser(request: Request) {
+  const authorization = request.headers.get("authorization");
+  const token = authorization?.startsWith("Bearer ") ? authorization.slice(7) : null;
+
+  if (token) {
+    const supabase = createSupabaseAdminClient();
+    const {
+      data: { user }
+    } = await supabase.auth.getUser(token);
+
+    if (user) {
+      return user;
+    }
+  }
+
+  const supabase = createSupabaseRouteClient(request);
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
+
+  return user;
+}
+
 export async function POST(request: Request) {
   try {
     if (!isSupabaseConfigured) {
       return NextResponse.json({ error: "Supabase is not configured." }, { status: 500 });
     }
 
-    const supabase = createSupabaseServerClient();
-    const {
-      data: { user }
-    } = await supabase.auth.getUser();
+    const supabase = createSupabaseAdminClient();
+    const user = await getRequestUser(request);
 
     if (!user) {
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });

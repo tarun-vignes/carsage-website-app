@@ -2,6 +2,7 @@
 
 import { FormEvent, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 import type { PurchaseMethod } from "@/types/report";
 
 const disclaimer =
@@ -80,6 +81,28 @@ export default function CheckPage() {
 
   const currentYear = useMemo(() => new Date().getFullYear(), []);
 
+  async function buildAuthHeaders() {
+    const supabase = createSupabaseBrowserClient();
+    const {
+      data: { session }
+    } = await supabase.auth.getSession();
+
+    let accessToken = session?.access_token;
+
+    if (!accessToken) {
+      const {
+        data: { session: refreshedSession }
+      } = await supabase.auth.refreshSession();
+
+      accessToken = refreshedSession?.access_token;
+    }
+
+    return {
+      "Content-Type": "application/json",
+      ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
+    };
+  }
+
   async function handleAutoGenerate() {
     setAutoError(null);
 
@@ -132,9 +155,7 @@ export default function CheckPage() {
       const quoteResponse = await fetch("/api/quote", {
         method: "POST",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: await buildAuthHeaders(),
         body: JSON.stringify(quotePayload)
       });
 
@@ -142,7 +163,12 @@ export default function CheckPage() {
 
       if (!quoteResponse.ok) {
         if (quoteResponse.status === 401) {
-          router.push("/login?next=/check");
+          const debugText = quoteResult.debug
+            ? ` Auth debug: token=${quoteResult.debug.hasAuthorizationHeader ? "yes" : "no"}, cookie=${
+                quoteResult.debug.hasCookieHeader ? "yes" : "no"
+              }.`
+            : "";
+          setAutoError(`${quoteResult.error ?? "You must be signed in to generate a report."}${debugText}`);
           return;
         }
 
@@ -172,20 +198,24 @@ export default function CheckPage() {
       const response = await fetch("/api/quote", {
         method: "POST",
         credentials: "include",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: await buildAuthHeaders(),
         body: JSON.stringify(manualPayload)
       });
 
       const payload = await response.json();
 
       if (!response.ok) {
-        setError(payload.error ?? "Unable to generate your report right now.");
-
         if (response.status === 401) {
-          router.push("/login?next=/check");
+          const debugText = payload.debug
+            ? ` Auth debug: token=${payload.debug.hasAuthorizationHeader ? "yes" : "no"}, cookie=${
+                payload.debug.hasCookieHeader ? "yes" : "no"
+              }.`
+            : "";
+          setError(`${payload.error ?? "You must be signed in to generate a report."}${debugText}`);
+          return;
         }
+
+        setError(payload.error ?? "Unable to generate your report right now.");
 
         return;
       }

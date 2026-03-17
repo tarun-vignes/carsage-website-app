@@ -13,19 +13,14 @@ export function createSupabaseServerClient() {
 
   return createServerClient(supabaseUrl, supabaseAnonKey, {
     cookies: {
-      get(name: string) {
-        return cookieStore.get(name)?.value;
+      getAll() {
+        return cookieStore.getAll();
       },
-      set(name: string, value: string, options: CookieOptions) {
+      setAll(cookieValues: Array<{ name: string; value: string; options: CookieOptions }>) {
         try {
-          cookieStore.set({ name, value, ...options });
-        } catch {
-          // Cookie mutations are not always available in server components.
-        }
-      },
-      remove(name: string, options: CookieOptions) {
-        try {
-          cookieStore.set({ name, value: "", ...options });
+          cookieValues.forEach(({ name, value, options }) => {
+            cookieStore.set({ name, value, ...options });
+          });
         } catch {
           // Cookie mutations are not always available in server components.
         }

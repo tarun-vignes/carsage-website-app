@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 
 export function UnlockReportButton({ reportId }: { reportId: string }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -11,11 +12,17 @@ export function UnlockReportButton({ reportId }: { reportId: string }) {
     setIsLoading(true);
 
     try {
+      const supabase = createSupabaseBrowserClient();
+      const {
+        data: { session }
+      } = await supabase.auth.getSession();
+
       const response = await fetch("/api/stripe/checkout", {
         method: "POST",
         credentials: "include",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {})
         },
         body: JSON.stringify({ reportId })
       });
