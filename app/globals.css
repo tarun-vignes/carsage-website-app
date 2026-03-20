@@ -120,12 +120,7 @@ button {
   .site-header {
     @apply sticky top-0 z-40 border-b backdrop-blur print-hidden;
     border-color: var(--brand-line);
-    background-color: rgba(241, 245, 249, 0.84);
-    background-image:
-      radial-gradient(circle at 1px 1px, rgba(95, 107, 118, 0.16) 1px, transparent 1.1px),
-      linear-gradient(90deg, rgba(222, 230, 238, 0.94) 0%, rgba(247, 250, 252, 0.94) 48%, rgba(224, 232, 240, 0.92) 100%),
-      linear-gradient(110deg, rgba(15, 95, 230, 0.1), transparent 25%, rgba(117, 214, 10, 0.08) 72%, transparent 88%);
-    background-size: 18px 18px, 100% 100%, 100% 100%;
+    background: linear-gradient(90deg, rgba(233, 241, 252, 0.97) 0%, rgba(247, 250, 252, 0.95) 42%, rgba(238, 247, 232, 0.96) 100%);
     box-shadow: 0 18px 28px -32px rgba(15, 23, 42, 0.65);
   }
 
@@ -277,16 +272,40 @@ button {
   }
 
   .brand-lockup {
-    @apply inline-flex items-center gap-3 rounded-2xl px-1 py-1;
+    @apply inline-flex items-center gap-3 rounded-2xl;
+    min-width: 260px;
+  }
+
+  .brand-icon-wrap {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    flex-shrink: 0;
+  }
+
+  .brand-copy {
+    display: flex;
+    min-width: 0;
+    flex-direction: column;
   }
 
   .brand-title {
-    @apply text-2xl font-semibold tracking-tight;
+    @apply text-[2.2rem] font-semibold tracking-tight;
     color: var(--brand-blue-deep);
   }
 
   .brand-title-accent {
     color: var(--brand-green-deep);
+  }
+
+  .brand-subtitle {
+    margin-top: 0.2rem;
+    font-size: 0.78rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.26em;
+    color: rgb(100 116 139);
   }
 
   .trust-strip {
@@ -307,3 +326,31 @@ button {
     background: white !important;
   }
 }
+
+.score-progress {
+  width: 100%;
+  height: 0.75rem;
+  overflow: hidden;
+  border: 0;
+  border-radius: 9999px;
+  background: rgb(226 232 240);
+}
+
+.score-progress::-webkit-progress-bar {
+  background: rgb(226 232 240);
+  border-radius: 9999px;
+}
+
+.score-progress::-webkit-progress-value {
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #0b3f9e 0%, #0f5fe6 58%, #75d60a 100%);
+}
+
+.score-progress::-moz-progress-bar {
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #0b3f9e 0%, #0f5fe6 58%, #75d60a 100%);
+}
+
+
+
+

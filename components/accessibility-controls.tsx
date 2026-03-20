@@ -217,8 +217,8 @@ export function AccessibilityControls() {
       <button
         type="button"
         className="relative z-10 flex h-14 w-14 items-center justify-center rounded-full border border-slate-300 bg-white text-slate-900 shadow-[0_16px_36px_-28px_rgba(15,23,42,0.55)] transition hover:border-slate-400 hover:bg-slate-50"
-        aria-expanded={isOpen}
         aria-controls="accessibility-panel"
+        aria-haspopup="dialog"
         aria-label="Open accessibility controls"
         onClick={() => setIsOpen((value) => !value)}
       >
@@ -355,3 +355,7 @@ export function AccessibilityControls() {
     </div>
   );
 }
+
+
+
+

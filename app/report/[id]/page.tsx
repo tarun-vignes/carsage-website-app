@@ -79,7 +79,6 @@ export default async function ReportPage({ params }: { params: { id: string } })
 
   const input = report.input_json;
   const output = report.output_json;
-  const scoreWidth = `${Math.max(8, Math.min(output.dealConfidenceScore, 100))}%`;
   const priceDelta = input.askingPrice - output.fairPriceBand.mid;
 
   return (
@@ -135,13 +134,7 @@ export default async function ReportPage({ params }: { params: { id: string } })
                 </div>
               </div>
 
-              <div className="mt-5">
-                <div className="h-3 overflow-hidden rounded-full bg-slate-200">
-                  <div
-                    className="h-full rounded-full bg-[linear-gradient(90deg,#0b3f9e_0%,#0f5fe6_58%,#75d60a_100%)]"
-                    style={{ width: scoreWidth }}
-                  />
-                </div>
+              <div className="mt-5">`r`n                <progress className="score-progress" max={100} value={Math.max(8, Math.min(output.dealConfidenceScore, 100))} />
                 <div className="mt-2 flex items-center justify-between text-xs text-slate-500">
                   <span>Needs caution</span>
                   <span>Balanced</span>
@@ -377,4 +370,6 @@ export default async function ReportPage({ params }: { params: { id: string } })
     </main>
   );
 }
+
+
 

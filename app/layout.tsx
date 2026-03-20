@@ -38,18 +38,18 @@ export default async function RootLayout({
     <html lang="en">
       <body className="flex min-h-screen flex-col" translate="yes">
         <header className="site-header">
-          <div className="page-wrap flex h-[112px] items-center justify-between gap-4">
-            <Link href="/" className="relative block h-[78px] w-[420px] overflow-hidden sm:h-[88px] sm:w-[500px]">
+          <div className="page-wrap flex h-[108px] items-center justify-between gap-8">
+            <Link href="/" className="flex items-center">
               <Image
                 src="/autovaro-logo.png"
                 alt="Autovaro"
-                fill
+                width={540}
+                height={120}
                 priority
-                sizes="(min-width: 640px) 372px, 320px"
-                className="object-contain object-left scale-[2.7] sm:scale-[2.85] origin-left"
+                className="h-auto w-[360px] sm:w-[430px]"
               />
             </Link>
-            <nav className="flex items-center gap-2 text-sm text-slate-700">
+            <nav className="flex items-center gap-2 self-center text-sm text-slate-700">
               <Link href="/check" className="site-nav-link">
                 Check Listing
               </Link>
@@ -103,4 +103,3 @@ export default async function RootLayout({
     </html>
   );
 }
-
