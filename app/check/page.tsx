@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createSupabaseBrowserClient } from "@/lib/supabase-browser";
 import type { PurchaseMethod } from "@/types/report";
@@ -78,8 +78,20 @@ export default function CheckPage() {
   const [autoUrl, setAutoUrl] = useState("");
   const [autoError, setAutoError] = useState<string | null>(null);
   const [isAutoSubmitting, setIsAutoSubmitting] = useState(false);
+  const [isSessionReady, setIsSessionReady] = useState(false);
 
   const currentYear = useMemo(() => new Date().getFullYear(), []);
+
+  useEffect(() => {
+    // Initialize session on page load
+    async function initializeSession() {
+      const supabase = createSupabaseBrowserClient();
+      await supabase.auth.getSession();
+      setIsSessionReady(true);
+    }
+    
+    initializeSession();
+  }, []);
 
   async function buildAuthHeaders() {
     const supabase = createSupabaseBrowserClient();
@@ -286,7 +298,7 @@ export default function CheckPage() {
               <button
                 type="button"
                 onClick={handleAutoGenerate}
-                disabled={isAutoSubmitting}
+                disabled={isAutoSubmitting || !isSessionReady}
                 className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {isAutoSubmitting ? "Generating..." : "Generate From Link"}
@@ -446,7 +458,7 @@ export default function CheckPage() {
 
               <button
                 type="submit"
-                disabled={isSubmitting}
+                disabled={isSubmitting || !isSessionReady}
                 className="btn-primary w-full disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {isSubmitting ? "Generating..." : "Generate Report"}
