@@ -18,9 +18,15 @@ export default function ResetPasswordPage() {
     const supabase = createSupabaseBrowserClient();
 
     async function prepareRecovery() {
+      console.log('Reset password page loaded, URL:', window.location.href); // Debug log
+      console.log('Hash params:', window.location.hash); // Debug log
+
       const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ""));
       const accessToken = hashParams.get("access_token");
       const refreshToken = hashParams.get("refresh_token");
+
+      console.log('Access token present:', !!accessToken); // Debug log
+      console.log('Refresh token present:', !!refreshToken); // Debug log
 
       if (accessToken && refreshToken) {
         const { error: sessionError } = await supabase.auth.setSession({
@@ -29,6 +35,7 @@ export default function ResetPasswordPage() {
         });
 
         if (sessionError) {
+          console.error('Session error:', sessionError); // Debug log
           setError(sessionError.message);
           return;
         }
@@ -37,6 +44,8 @@ export default function ResetPasswordPage() {
       const {
         data: { session }
       } = await supabase.auth.getSession();
+
+      console.log('Session established:', !!session); // Debug log
 
       if (!session) {
         setError("This password reset link is invalid or has expired. Request a new reset email.");
@@ -98,21 +107,33 @@ export default function ResetPasswordPage() {
 
           <div className="mt-8 space-y-3">
             <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
-              <p className="metric-label">Recovery link required</p>
-              <p className="mt-2 text-sm text-slate-700">This page works only from a valid password-reset email link.</p>
+              <p className="metric-label">🔐 Secure reset</p>
+              <p className="mt-2 text-sm text-slate-700">This link is valid for 24 hours and can only be used once.</p>
             </div>
             <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
-              <p className="metric-label">Password rule</p>
-              <p className="mt-2 text-sm text-slate-700">Use at least 8 characters so the account stays easy to manage later.</p>
+              <p className="metric-label">Password requirements</p>
+              <p className="mt-2 text-sm text-slate-700">Use at least 8 characters with a mix of letters and numbers for security.</p>
+            </div>
+            <div className="rounded-2xl border border-slate-300 bg-slate-50 p-4">
+              <p className="metric-label">🚗 Autovaro branded</p>
+              <p className="mt-2 text-sm text-slate-700">Your password reset is handled securely by Autovaro, not third-party services.</p>
             </div>
           </div>
         </section>
 
         <section className="surface-card w-full p-6 sm:p-8">
-          <p className="eyebrow">New password</p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">Set a new password</h2>
+          <div className="text-center">
+            <div className="mx-auto h-12 w-12 rounded-full bg-[#0b3f9e]/10 flex items-center justify-center">
+              <svg className="h-6 w-6 text-[#0b3f9e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <p className="eyebrow mt-4">Secure password reset</p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-900">Set your new password</h2>
+            <p className="mt-2 text-sm text-slate-600">Enter a strong password to secure your Autovaro account.</p>
+          </div>
 
-          <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+          <form className="mt-8 space-y-4" onSubmit={handleSubmit}>
             <label className="space-y-1.5 text-sm">
               <span className="font-medium text-slate-700">New password</span>
               <input
@@ -122,11 +143,13 @@ export default function ResetPasswordPage() {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 disabled={!isRecoveryReady || isSubmitting}
+                placeholder="Enter at least 8 characters"
+                className="w-full"
               />
             </label>
 
             <label className="space-y-1.5 text-sm">
-              <span className="font-medium text-slate-700">Confirm password</span>
+              <span className="font-medium text-slate-700">Confirm new password</span>
               <input
                 required
                 type="password"
@@ -134,27 +157,55 @@ export default function ResetPasswordPage() {
                 value={confirmPassword}
                 onChange={(event) => setConfirmPassword(event.target.value)}
                 disabled={!isRecoveryReady || isSubmitting}
+                placeholder="Re-enter your password"
+                className="w-full"
               />
             </label>
 
             {!isRecoveryReady && !error && (
-              <p className="rounded-xl bg-slate-100 px-3 py-2 text-sm text-slate-700">Waiting for a valid recovery session...</p>
+              <div className="rounded-xl bg-slate-100 px-4 py-3">
+                <div className="flex items-center gap-2">
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-slate-400 border-t-transparent"></div>
+                  <p className="text-sm text-slate-700">Validating your reset link...</p>
+                </div>
+              </div>
             )}
 
-            {error && <p className="rounded-xl bg-rose-50 px-3 py-2 text-sm text-rose-700">{error}</p>}
-            {successMessage && <p className="rounded-xl bg-emerald-50 px-3 py-2 text-sm text-emerald-700">{successMessage}</p>}
+            {error && (
+              <div className="rounded-xl bg-rose-50 px-4 py-3 border border-rose-200">
+                <p className="text-sm text-rose-700">{error}</p>
+              </div>
+            )}
+            {successMessage && (
+              <div className="rounded-xl bg-emerald-50 px-4 py-3 border border-emerald-200">
+                <p className="text-sm text-emerald-700">{successMessage}</p>
+              </div>
+            )}
 
-            <button type="submit" disabled={!isRecoveryReady || isSubmitting} className="btn-primary w-full disabled:opacity-60">
-              {isSubmitting ? "Updating password..." : "Save new password"}
+            <button
+              type="submit"
+              disabled={!isRecoveryReady || isSubmitting}
+              className="btn-primary w-full disabled:opacity-60 disabled:cursor-not-allowed"
+            >
+              {isSubmitting ? (
+                <div className="flex items-center justify-center gap-2">
+                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
+                  Updating password...
+                </div>
+              ) : (
+                "Save new password"
+              )}
             </button>
           </form>
 
-          <p className="mt-5 text-sm text-slate-600">
-            Back to{" "}
-            <Link href="/login" className="font-semibold text-slate-900 underline underline-offset-4">
-              log in
-            </Link>
-          </p>
+          <div className="mt-6 text-center">
+            <p className="text-sm text-slate-600">
+              Remember your password?{" "}
+              <Link href="/login" className="font-semibold text-[#0b3f9e] underline underline-offset-4 hover:text-[#0b3f9e]/80">
+                Back to log in
+              </Link>
+            </p>
+          </div>
         </section>
       </div>
     </main>
